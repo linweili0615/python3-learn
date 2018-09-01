@@ -112,6 +112,20 @@ print(list(filter(revearse, range(1,1000))))
 print(list(filter(lambda n : str(n) == str(n)[::-1], range(1,1000))))
 
 
+#sorted排序
+#对list排序
+print(sorted([36,30,-9,7,-10]))
+#可以接收一个key函数来实现自定义的排序
+print(sorted([36,30,-9,7,-10],key=abs))
+#反向排序，不必改动key函数，可以传入第三个参数reverse=True
+print(sorted(['bob', 'about', 'Zoo', 'Credit'], key=str.lower, reverse=True))
+
+L = [('Bob', 75), ('Adam', 92), ('Bart', 66), ('Lisa', 88)]
+print(sorted(L, key=lambda x:x[0]))
+print(sorted(L, key=lambda x:x[1]))
+
+
+
 
 
 
