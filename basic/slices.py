@@ -21,4 +21,11 @@ print(L[::5])  #所有数，每5个取一个
 print(L[:])  #只写[:]就可以原样复制一个list
 
 
+#反转字符串
+#切片法
+def reverse1():
+    s=input("请输入需要反转的内容：")
+    return s[::-1]
+
+
 #tuple、str 同上
