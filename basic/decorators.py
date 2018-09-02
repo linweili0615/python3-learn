@@ -40,6 +40,7 @@ import functools
 
 def log2(text):
     def decotators(func):
+        #如果想要保留原函数的属性，就可以用到functools.wraps了
         @functools.wraps(func)
         def wrapper(*args,**kwargs):
             print('%s call %s(): (%s,%s)' % (text,func.__name__, args, kwargs))
