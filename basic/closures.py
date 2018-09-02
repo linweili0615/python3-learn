@@ -46,3 +46,5 @@ def count():
 f1, f2, f3= [(lambda j = i : j ** 2) for i in range(1, 4)]
 print(f1(),f2(),f3())
 
+
+
