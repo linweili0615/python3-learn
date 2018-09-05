@@ -128,3 +128,18 @@ s.name = 'Michael' # 给实例绑定name属性
 print(s.name) # 由于实例属性优先级比类属性高，因此，它会屏蔽掉类的name属性
 print(Student.name) # 但是类属性并未消失，用Student.name仍然可以访问
 print(s.name) # 再次调用s.name，由于实例的name属性没有找到，类的name属性就显示出来了
+
+#若父类构造函数包含很多属性，子类仅需新增1、2个，会有不少冗余的代码，这边，子类可对父类的构造方法进行调用
+class Person(object):
+    def __init__(self,name,sex):
+        self.name = name
+        self.sex = sex
+
+class Child(Person):                          # Child 继承 Person
+    def __init__(self,name,sex,mother,father):
+        Person.__init__(self,name,sex)        # 子类对父类的构造方法的调用
+        self.mother = mother
+        self.father = father
+
+May = Child("May","female","April","June")
+print(May.name,May.sex,May.mother,May.father)
