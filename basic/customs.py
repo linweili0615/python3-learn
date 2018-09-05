@@ -60,3 +60,37 @@ c()
 
 #判断一个对象是否能被调用，能被调用的对象就是一个Callable对象
 print(callable(Chain()))
+
+
+
+class Chain(object):
+
+    def __init__(self, path='GET '):
+        self._path = path
+        print('init(%s) self._path=%s'%(path,self._path))
+
+    def __getattr__(self, path):
+        print('getattr(%s) self._path=%s'%(path,self._path))
+        return Chain('%s/%s' % (self._path,path))
+
+    def __call__(self,path):
+        print('call(%s) self._path=%s'%(path,self._path))
+        return Chain('%s/%s' % (self._path, path))
+
+    def __str__(self):
+        print('str() self._path=%s'%self._path)
+        return self._path
+
+    __repr__ = __str__
+
+print(Chain().users('michael').repos)
+
+# 我是这样理解的，最后一句Chain().users(‘michael’).repos
+# 首先Chain()会调用init()函数，path等于默认值；
+# Chain().users会调用getattr()函数，返回一个值，将返回值与原句剩下的拼起来，原句变成了：
+# Chain(‘%s/%s’ % (self._path,path))(‘michael’).repos，
+# 这一句中的Chain(‘%s/%s’ % (self._path,path))又会调用init()函数，之后
+# Chain(‘%s/%s’ % (self._path,path))(‘michael’)类似于上面的例子中的Student(‘hsc’)()，会调用call()函数，返回一个值，原句变成
+# Chain(‘%s/%s’ % (self._path, path)).repos，先调用init()函数，在调用getattr()函数，原句变成：
+# Chain(‘%s/%s’ % (self._path,path)) 调用init函数，在调用str()函数
+# 最后，print()这一句执行
