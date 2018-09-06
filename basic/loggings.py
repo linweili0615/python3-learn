@@ -4,6 +4,10 @@
 #不需要在每个可能出错的地方去捕获错误，只要在合适的层次去捕获错误就可以了。这样一来，就大大减少了写try...except...finally的麻烦
 #记录错误
 import logging
+#允许你指定记录信息的级别，有debug，info，warning，error等几个级别，
+# logging.basicConfig(level=logging.INFO)
+
+
 def foo(s):
     return 10 / int(s)
 
@@ -51,3 +55,12 @@ bar()
 #     10 / 0
 # except ZeroDivisionError:
 #     raise ValueError('input error!')
+
+# def foo(s):
+#     n = int(s)
+#     #断言
+#     assert n != 0, 'n is zero!'
+#     return 10 / n
+#
+# def main():
+#     foo('0')
