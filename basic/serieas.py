@@ -34,7 +34,34 @@ json_str = '{"age": 20, "score": 88, "name": "Bob"}'
 print(json.loads(json_str))
 
 #JSON进阶
+class Student(object):
+    def __init__(self, name, age, score):
+        self.name = name
+        self.age = age
+        self.score = score
+#之所以无法把Student类实例序列化为JSON，是因为默认情况下，dumps()方法不知道如何将Student实例变为一个JSON的{}对象。
+#可选参数default就是把任意一个对象变成一个可序列为JSON的对象，我们只需要为Student专门写一个转换函数，再把函数传进去即可
+def changeStu(stu):
+    return {
+        'name':stu.name,
+        'age':stu.age,
+        'score':stu.score
+    }
+s = Student('chen',18,100.56)
+print(json.dumps(s,default=changeStu))
+#下次如果遇到一个Teacher类的实例，照样无法序列化为JSON。我们可以偷个懒，把任意class的实例变为dict
+#通常class的实例都有一个__dict__属性，它就是一个dict，用来存储实例变量
+print(json.dumps(s,default=lambda s : s.__dict__))
 
+#json反序列成Student实例
+def dict_Student(d):
+    return Student(d['name'],d['age'],d['score'])
+
+json_str = '{"age": 20, "score": 88, "name": "Bob"}'
+print(json.loads(json_str, object_hook=dict_Student))
+
+obj = dict(name='小明', age=20)
+print(json.dumps(obj, ensure_ascii=False))
 
 
 
