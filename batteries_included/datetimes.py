@@ -27,3 +27,19 @@ print(now - timedelta(days=1))
 print(now + timedelta(days=2, hours=12))
 
 #本地时间转换为UTC时间
+from datetime import timezone
+tz_utc_8 = timezone(timedelta(hours=8)) # 创建时区UTC+8:00
+now = datetime.now()
+dt = now.replace(tzinfo=tz_utc_8) # 强制设置为UTC+8:00
+print(dt)
+
+#时区转换
+# 拿到UTC时间，并强制设置时区为UTC+0:00:
+utc_dt = datetime.utcnow().replace(tzinfo=timezone.utc)
+print(utc_dt)
+bj_dt = utc_dt.astimezone(timezone(timedelta(hours=8)))
+print(bj_dt)
+tokyo_dt = utc_dt.astimezone(timezone(timedelta(hours=9)))
+print(tokyo_dt)
+tokyo_dt2 = bj_dt.astimezone(timezone(timedelta(hours=9)))
+print(tokyo_dt2)
