@@ -41,11 +41,15 @@ def serialize(model):
     # then we return their values in a dict
     return dict((c, getattr(model, c)) for c in columns)
 
-def model_to_json(model):
-    columns = [c.key for c in class_mapper(model.__class__).columns]
-    model_dict = dict((c, getattr(model, c)) for c in columns)
+def to_json(self):
+    columns = [c.key for c in class_mapper(self.__class__).columns]
+    model_dict = dict((c, getattr(self, c)) for c in columns)
     return json.dumps(model_dict)
 
-print(model_to_json(user))
+#将to_json方法添加到Base
+Base.to_json = to_json
+
+print(user.to_json())  #调用主类方法
+print(to_json(user))
 
 session.close()
