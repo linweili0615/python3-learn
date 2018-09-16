@@ -9,7 +9,7 @@ cursor.execute('create table user (id varchar(20) primary key, name varchar(20))
 cursor.execute('insert into user (id, name) values (%s, %s)', ['1', 'Michael'])
 cursor.rowcount
 
-# 提交事务:
+# 提交事务1:
 conn.commit()
 cursor.close()
 # 运行查询:
