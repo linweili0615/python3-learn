@@ -1,9 +1,24 @@
 #/usr/bin/env python3
 #coding=utf-8
-from locust import TaskSet, HttpLocust, task
+from locust import TaskSet, HttpLocust, task, events
 from locust.clients import HttpSession
 
 web = 'https://at.tuandai.com'
+
+from gevent._semaphore import Semaphore
+all_locusts_spawned = Semaphore()
+all_locusts_spawned.acquire()
+
+def on_hatch_complete(**kwargs):
+    all_locusts_spawned.release()
+
+events.hatch_complete += on_hatch_complete
+
+class TestTask(TaskSet):
+    def on_start(self):
+        """ on_start is called when a Locust start before any task is scheduled """
+        self.login()
+        all_locusts_spawned.wait()
 
 class DrawTask(TaskSet):
     session = None

@@ -1,14 +1,24 @@
 #/usr/bin/env python3
 #coding=utf-8
-from locust import HttpLocust, TaskSet, task
+from locust import HttpLocust, TaskSet, task, events
 from gevent._semaphore import Semaphore
 all_locusts_spawned = Semaphore()
 all_locusts_spawned.acquire()
+from datetime import datetime
 
 
 host = 'http://crm.tuandai.com/'
 token = 'b303e06d161f527f91e7d2786c0b273d'
 validate_str = '200'
+
+from gevent._semaphore import Semaphore
+all_locusts_spawned = Semaphore()
+all_locusts_spawned.acquire()
+
+def on_hatch_complete(**kwargs):
+    all_locusts_spawned.release()
+
+events.hatch_complete += on_hatch_complete
 
 class CrmTaskSet(TaskSet):
 
@@ -31,6 +41,8 @@ class CrmTaskSet(TaskSet):
             else:
                 print('资金:Request Failed :{}'.format(response.text))
                 response.failure('Request Failed!')
+            print('request|资金|time:{}'.format(datetime.now()))
+            all_locusts_spawned.wait()
 
     @task(1)
     def index1(self):
@@ -51,6 +63,8 @@ class CrmTaskSet(TaskSet):
             else:
                 print('资金详情:Request Failed!:{}'.format(response.text))
                 response.failure('Request Failed!')
+            print('request|资金详情|time:{}'.format(datetime.now()))
+            all_locusts_spawned.wait()
 
 
 class LocustWeb(HttpLocust):
@@ -59,6 +73,7 @@ class LocustWeb(HttpLocust):
     # min_wait和max_wait用于设置执行task过程中的等待时间，相当于LR中Pacing的设置，这里都设置为0；
     min_wait = 0
     max_wait = 0
+    # stop_timeout = 20
 
 if __name__ == '__main__':
     import subprocess
