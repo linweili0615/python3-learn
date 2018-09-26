@@ -44,27 +44,27 @@ class CrmTaskSet(TaskSet):
             print('request|资金|time:{}'.format(datetime.now()))
             all_locusts_spawned.wait()
 
-    @task(1)
-    def index1(self):
-        with self.client.get(
-            name='资金详情',
-            headers={'token': token},
-            url=host + 'kefu/customerallinfo/funddetailinfolist?userId=F0A3450D-7E4C-415E-BD91-FE7A9606096F&callNumber=&custID=&'
-                       'beginDate=2018-09-01&endDate=2018-09-25&status=-1&_search=false&nd=1537871657071&limit=15&page=1&sidx=&order=asc&_=1537871656903',
-            catch_response=True
-        ) as response:
-
-            if response.status_code == 200:
-                if validate_str in response.text:
-                    response.success()
-                else:
-                    print('资金详情:Response Failed :{}'.format(response.text))
-                    response.failure('Response Failed!')
-            else:
-                print('资金详情:Request Failed!:{}'.format(response.text))
-                response.failure('Request Failed!')
-            print('request|资金详情|time:{}'.format(datetime.now()))
-            all_locusts_spawned.wait()
+    # @task(1)
+    # def index1(self):
+    #     with self.client.get(
+    #         name='资金详情',
+    #         headers={'token': token},
+    #         url=host + 'kefu/customerallinfo/funddetailinfolist?userId=F0A3450D-7E4C-415E-BD91-FE7A9606096F&callNumber=&custID=&'
+    #                    'beginDate=2018-09-01&endDate=2018-09-25&status=-1&_search=false&nd=1537871657071&limit=15&page=1&sidx=&order=asc&_=1537871656903',
+    #         catch_response=True
+    #     ) as response:
+    #
+    #         if response.status_code == 200:
+    #             if validate_str in response.text:
+    #                 response.success()
+    #             else:
+    #                 print('资金详情:Response Failed :{}'.format(response.text))
+    #                 response.failure('Response Failed!')
+    #         else:
+    #             print('资金详情:Request Failed!:{}'.format(response.text))
+    #             response.failure('Request Failed!')
+    #         print('request|资金详情|time:{}'.format(datetime.now()))
+    #         all_locusts_spawned.wait()
 
 
 class LocustWeb(HttpLocust):
