@@ -79,7 +79,8 @@ if __name__ == '__main__':
     import subprocess
 
     # 设置相同的10用户并发，Hatch Rate是每秒启动多少用户的意思。这里设置为10，就是同时启动10个
-    subprocess.Popen('locust -f crm.py --no-web --csv=crm --logfile=crm.log -c 10 -r 10 -t 10s',shell=True)
+    # subprocess.Popen('locust -f crm.py --no-web --csv=crm --logfile=crm.log -c 10 -r 10 -t 10s',shell=True)
+    subprocess.Popen('locust -f crm.py',shell=True)
 
 #no-web执行
 # –no-web 表示不使用Web界面运行测试。
